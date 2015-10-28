@@ -22,3 +22,14 @@ git push origin master
 
 # Come Back
 cd ..
+
+git add -A
+
+# Commit changes.
+msg="updating blog repo `date`"
+if [ $# -eq 1 ]
+  then msg="$1"
+fi
+git commit -m "$msg"
+
+git push origin master

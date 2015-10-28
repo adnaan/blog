@@ -5,4 +5,8 @@ slug = "aosp-tidbits"
 
 +++
 
-Some content
+To merge a library manifest with the main package manifest, the flag LOCAL_FULL_LIBS_MANIFEST_FILES can be used.
+
+e.g:
+
+LOCAL_FULL_LIBS_MANIFEST_FILES := $(LOCAL_PATH)/path/to/library/AndroidManifest.xml
