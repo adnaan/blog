@@ -1,0 +1,6 @@
+[submodule "public"]
+	path = public
+	url = git@github.com:adnaan/adnaan.github.io.git
+[submodule "themes/slim"]
+	path = themes/slim
+	url = https://github.com/zhe/hugo-theme-slim.git

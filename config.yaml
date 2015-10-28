@@ -1,0 +1,15 @@
+baseurl: "http://adnaan.github.io"
+languageCode: "en-us"
+title: "Adnaan Badr"
+theme: "slim"
+permalinks:
+  post: /:year/:month/:slug/
+paginate: 10
+
+params:
+  Subtitle: "Android Framework/Platform Engineer, Mobile App Services"
+  GithubID: "adnan"
+  TwitterID: "adnaanx"
+  Summary: true # takes true or false
+  Content: false # takes true or false
+  # if both are set to true, summary is shown
