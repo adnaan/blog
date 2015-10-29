@@ -7,7 +7,7 @@ permalinks:
 paginate: 10
 
 params:
-  Subtitle: "Android Framework/Platform, Mobile App Services, Go"
+  Subtitle: "Android Framework/Platform, Mobile App Services, Go, Weird Sarcasm"
   GithubID: "adnaan"
   TwitterID: "adnaanx"
   Summary: true # takes true or false
