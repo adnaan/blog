@@ -15,7 +15,7 @@ LOCAL_FULL_LIBS_MANIFEST_FILES := $(LOCAL_PATH)/path/to/mylibrary/AndroidManifes
 ```
 [androidxref-source](http://androidxref.com/6.0.0_r1/xref/build/core/android_manifest.mk)
 
-+ Code search : For fast indexed code search a CLI tool goes a long way. Switching context between Opengrok and the terminal gets frustating. Using https://github.com/google/codesearch has cut down my search time from minutes(using ag, grep) to milliseconds.
++ Code search : For fast indexed code search a CLI tool goes a long way. Switching context between Opengrok and the terminal gets frustrating. Using https://github.com/google/codesearch cuts down the search time from minutes (ag, grep) to milliseconds.
 
 
 WIP
