@@ -1,6 +1,6 @@
 baseurl: "http://adnaan.github.io"
 languageCode: "en-us"
-title: "A Blog"
+title: "Adnaan Badr"
 theme: "slim"
 permalinks:
   post: /:year/:month/:slug/
