@@ -4,7 +4,7 @@ title = "AOSP snippets"
 slug = "aosp-snippets"
 +++
 
-## List of AOSP tricks, tips and snippets in no particular order
+## List of AOSP related tips, links and snippets in no particular order
 
 + To merge a library manifest with the main package manifest, the flag `LOCAL_FULL_LIBS_MANIFEST_FILES` can be used.
 <!--more-->
@@ -14,5 +14,8 @@ e.g:
 LOCAL_FULL_LIBS_MANIFEST_FILES := $(LOCAL_PATH)/path/to/mylibrary/AndroidManifest.xml
 ```
 [androidxref-source](http://androidxref.com/6.0.0_r1/xref/build/core/android_manifest.mk)
+
++ Code search : For fast indexed code search a CLI tool goes a long way. Using https://github.com/google/codesearch has cut down my search time from minutes(using ag, grep) to milliseconds. It also saves me from constantly switching context between Opengrok and the terminal.
+
 
 WIP
