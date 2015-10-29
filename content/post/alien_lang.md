@@ -29,5 +29,3 @@ The meeting went something like this.
 "Well, the biologists are looking for specimens".
 
 Meanwhile a group of red-orange aliens are about to begin their landing cycle in crate shaped ships whilst a bunch of engineers from  Planet D are still fueling their ship at the last stopover.
-
-I guess you get the drift.
