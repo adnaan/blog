@@ -10,6 +10,7 @@ params:
   Subtitle: "Android Framework/Platform, Mobile App Services, Go, Weird Sarcasm"
   GithubID: "adnaan"
   TwitterID: "adnaanx"
+  AnalyticsID: "UA-69453720-1"
   Summary: true # takes true or false
   Content: false # takes true or false
   # if both are set to true, summary is shown
