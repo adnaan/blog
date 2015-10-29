@@ -4,4 +4,6 @@ slug = "about"
 menu = "main"
 +++
 
-Android Framework/Platform Engineer, Mobile App Services
+Fellow time traveller.
+
+[Personal Blog](https://honestmusings.wordpress.com/)
