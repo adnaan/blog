@@ -17,5 +17,12 @@ LOCAL_FULL_LIBS_MANIFEST_FILES := $(LOCAL_PATH)/path/to/mylibrary/AndroidManifes
 
 + Code search : For fast indexed code search a CLI tool goes a long way. Switching context between Opengrok and the terminal gets frustrating. Using https://github.com/google/codesearch cuts down the search time from minutes (ag, grep) to milliseconds.
 
++ Repo init: I found the flag "--reference" in the repo tool quite useful. Easy way to sync the whole tree on a new system.
+
+```
+repo init --reference=~/android/cm -u git://url/to/manifest.git -b marshmallow
+```
+
+[More repo tricks and tips at xda-university](http://xda-university.com/as-a-developer/repo-tips-tricks)
 
 WIP
