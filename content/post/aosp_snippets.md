@@ -61,4 +61,68 @@ Look at the source to view more functions. The complete list is:
 addcompletions add_lunch_combo cgrep check_product check_variant choosecombo chooseproduct choosetype choosevariant core coredump_enable coredump_setup cproj croot findmakefile get_abs_build_var getbugreports get_build_var getdriver getlastscreenshot get_make_command getprebuilt getscreenshotpath getsdcardpath gettargetarch gettop ggrep godir hmm is isviewserverstarted jgrep key_back key_home key_menu lunch _lunch m make mangrep mgrep mm mma mmm mmma pez pid printconfig print_lunch_menu qpid rcgrep resgrep runhat runtest sepgrep set_java_home setpaths set_sequence_number set_stuff_for_environment settitle sgrep smoketest stacks startviewserver stopviewserver systemstack tapas tracedmdump treegrep
 ```
 
++ Repo sync only current branch. Normally rep would fetch all the branches for a base manifest.
+
+```
+$ repo sync -c
+```
+
++ Build using build.sh. It's a wrapper script over make and provides several useful utilities:
+
+```
+$ cd root-android
+$ ./build.sh product_name -d -jN
+```
+
+Options to build only images and modules are also available. A full list of options can be seen in the usage of the script.
+
+```
+$ ./build.sh -h
+```
+
+```
+Usage:
+    bash ./build.sh <TARGET_PRODUCT> [OPTIONS]
+
+Description:
+    Builds Android tree for given TARGET_PRODUCT
+
+OPTIONS:
+    -c, --clean_build
+        Clean build - build from scratch by removing entire out dir
+
+    -d, --debug
+        Enable debugging - captures all commands while doing the build
+
+    -h, --help
+        Display this help message
+
+    -i, --image
+        Specify image to be build/re-build (bootimg/sysimg/usrimg)
+
+    -j, --jobs
+        Specifies the number of jobs to run simultaneously (Default: 8)
+
+    -k, --kernel_defconf
+        Specify defconf file to be used for compiling Kernel
+
+    -l, --log_file
+        Log file to store build logs (Default: <TARGET_PRODUCT>.log)
+
+    -m, --module
+        Module to be build
+
+    -p, --project
+        Project to be build
+
+    -s, --setup_ccache
+        Set CCACHE for faster incremental builds (true/false - Default: true)
+
+    -u, --update-api
+        Update APIs
+
+    -v, --build_variant
+        Build variant (Default: userdebug)
+```
+...
 WIP
