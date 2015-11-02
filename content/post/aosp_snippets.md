@@ -4,7 +4,7 @@ title = "AOSP snippets"
 slug = "aosp-snippets"
 +++
 
-## List of AOSP related tips, links and snippets in no particular order
+#### List of AOSP related tips, links and snippets in no particular order
 
 + To merge a library manifest with the main package manifest, the flag `LOCAL_FULL_LIBS_MANIFEST_FILES` can be used.
 <!--more-->
