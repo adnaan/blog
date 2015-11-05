@@ -1,5 +1,5 @@
 +++
-date = "2015-11-04"
+date = "2015-11-05"
 title = "AOSP snippets"
 slug = "aosp-snippets"
 +++
@@ -28,6 +28,17 @@ $ repo sync -c
 ```
 $ repo forall -vpc "git log --all --grep='bugfix'" -j10
 ```
++ [IDEGen](https://android.googlesource.com/platform/development/+/master/tools/idegen/README) : Viewing AOSP sources in Android Studio.
+
+```
+$ source build/envsetup.sh
+$ lunch aosp_arm-eng # your target
+$ make -j10
+$ mmm development/tools/idegen/
+$ development/tools/idegen/idegen.sh
+```
+
+In AOSP root `android.ipr` and `android.iml` are produced. Now the whole source can be imported in android studio.
 
 + To merge a library manifest with the main package manifest, the flag `LOCAL_FULL_LIBS_MANIFEST_FILES` can be used.
 <!--more-->
