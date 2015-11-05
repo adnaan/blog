@@ -16,6 +16,7 @@ repo init --reference=~/android/cm -u git://url/to/manifest.git -b marshmallow
 
 [More repo tricks and tips at xda-university](http://xda-university.com/as-a-developer/repo-tips-tricks)
 
+<!--more-->
 
 + Repo sync only current branch. Normally rep would fetch all the branches for a base manifest.
 
@@ -41,7 +42,7 @@ $ development/tools/idegen/idegen.sh
 In AOSP root `android.ipr` and `android.iml` are produced. Now the whole source can be imported in android studio.
 
 + To merge a library manifest with the main package manifest, the flag `LOCAL_FULL_LIBS_MANIFEST_FILES` can be used.
-<!--more-->
+
 e.g:
 
 ```
