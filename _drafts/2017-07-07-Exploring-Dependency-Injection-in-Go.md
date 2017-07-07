@@ -14,13 +14,16 @@ As a clean programming practice, the theory of dependency injection is quite old
 It plainly means that the dependencies of a client are provided to it as it’s initial state. 
 This is in contrast with using globals for dependencies wherein the same global resource is shared across multiple clients.
 
-```
+```go
+
 // Using a global dependency. 
 
 var userService user.Service
+
 func Init() {
  userService = user.NewService()
 }
+
 func GetComments() []Comment {
  var comments []Comment
  comments = append(comments, userService.GetComments())
