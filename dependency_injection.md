@@ -1,6 +1,5 @@
 ---
 post_title: 'Exploring Dependency Injection in Go'
-layout: post_type_probably_post
 published: false
 ---
 
