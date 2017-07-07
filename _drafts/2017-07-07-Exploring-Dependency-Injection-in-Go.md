@@ -1,8 +1,12 @@
 ---
-post_title: 'Exploring Dependency Injection in Go'
+ID: 13
+post_title: Exploring Dependency Injection in Go
+author: adnaan
+post_excerpt: ""
+layout: post
+permalink: http://adnaan.badr.in/?p=13
 published: false
 ---
-
 As a clean programming practice, the theory of dependency injection is quite old and simple across several languages: 
 
 > A dependency should be passed to a client as an argument instead of the client building or finding one.
