@@ -15,7 +15,6 @@ It plainly means that the dependencies of a client are provided to it as it’s 
 This is in contrast with using globals for dependencies wherein the same global resource is shared across multiple clients.
 
 ```go
-
 // Using a global dependency. 
 
 var userService user.Service
