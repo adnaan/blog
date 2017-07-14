@@ -172,7 +172,7 @@ import (
 type Service interface {
 // invoked from a http request and returns the role of the user.
   HandleGetRoleRequest(uid string) string
-HandleGetAccessKey(uid string) (string, error)
+  HandleGetAccessKey(uid string) (string, error)
 }
 
 // Config for the service
