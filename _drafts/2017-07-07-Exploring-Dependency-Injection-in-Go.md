@@ -10,9 +10,9 @@ published: true
 
 ## Introduction
 
-A lot has been said about the pros and cons of Dependency Injection. This post is less about the pattern itself and more about it's implementation design and it's side-effects w.r.t `Go`
+A lot has been said about the pros and cons of Dependency Injection. This post is less about the pattern itself and more about it's implementation design and it's side-effects w.r.t `Go`.
 
-Let's define a context for `Go` users :
+Let's setup a context for `Go` users :
 
 As a clean programming practice, the theory of dependency injection is quite simple across several languages: 
 
@@ -97,7 +97,7 @@ func main(){
 	userServiceLimitedAccess := user.Service{
 		AsClient : asClient,
 		KafkaProducer: kafkaProducer,
-		AuthService: authService
+		AuthService: authService2
 		... // less dependencies
 	}
 
@@ -108,9 +108,9 @@ Though the concept of DI itself is simple, it takes a bit of premeditated design
 
 In the above example, where  `user.Service` has multiple modes, the struct `user.Service{...}` initialization does not make clear what dependents where required to make that happen.
 
-One can imagine this initialization pattern to get even more messy with changing requirements:
+One can imagine this initialization pattern to get even more messy with changing requirements. Service usability and behavior could change based on:
 
-1. The service has multiple modes or capabilities. e.g: `limitedaccess`, `maintenance` , `readonly` etc. Each mode could have additional or fewer dependencies. 
+1. The service has multiple modes or capabilities. e.g: `limitedaccess`, `maintenance` , `readonly` etc. 
 2. The service has a commonly used `default` mode.
 3. The service adds/removes dependencies over time(i.e capabilities). 
 
@@ -138,7 +138,7 @@ Moreover, initializing a service using `user.Service{}` limits our ability to en
 Possible approaches to construct a service object using functions:
 
 1. `New`. e.g: `NewReadOnlyService(...)`, `NewPrivilegedService(...)`
-2. `Config` : `type Config struct{}...`. `NewService(c *Config)`. `NewService(nil)` would mean a default `Config`
+2. `Config` : `type Config struct{}...`. `NewService(c *Config)`. `NewService(nil)` `nil` would mean a default `Config`
 3. Variadic `Config`. `NewService(c ...Config)`.
 4. Functional Options: `NewService(options ...func(Service)`
 
@@ -167,7 +167,7 @@ The `functional options` pattern is reasonable enough. But still doesn't really 
 
 We end up with a situation where again, there are a large number of arguments to be passed into the `New` function. Also it doesn't make a lot of sense to have to declare `default` behavior as a mode.
 
-Ideally, for a service we would want a `default` behavior which we can override to achieve a mode.
+Ideally, for a service we would want a `default` behavior which we can override to create a new mode.
 
 ##### Functional Config Options
 
@@ -333,7 +333,8 @@ func TestService(t *testing.T) {
 ```
 
 ## Refactoring Code
-Splitting our code into multiple services or even binaries becomes trivial too. 
+
+A sorted out dependency graph makes splitting our code into new services trivial.
 
 ```go
    //service1/main.go
@@ -361,10 +362,14 @@ There are various other ways to build a sensible dependency graph. Packages like
 
 ## Takeaway
 
-Here is a one liner for the reader:
+Here is a tl;dr for the reader:
 
 ```
-Pass dependencies to a service implementation as functional config options: New(defaultConfig Config, configOptions ...func(*Config) )
+Pass dependencies to a service implementation as functional config options:
+
+    New(defaultConfig Config, configOptions ...func(*Config))Service.
+
+where Service is an interface.
 ```
 
 Dependency Injection in other languages consider more factors specific to the ecosystem. It's important to evaluate which of the patterns emanating from those factors can be directly mapped to Go. Hopefully I have presented a strong case for a sensible dependency injection pattern in Go.
