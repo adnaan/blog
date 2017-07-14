@@ -10,7 +10,7 @@ published: true
 post_date: 2017-07-15 03:42:44
 ---
 <h2>Introduction</h2>
-There is lot of material available about the pros and cons of Dependency Injection. This post is less about the pattern itself and more about its implementation design and it's side-effects w.r.t <code>Go</code>.
+There is a lot of material available about the pros and cons of Dependency Injection. This post is less about the pattern itself and more about its implementation design and it's side-effects w.r.t <code>Go</code>.
 
 Let's setup a context for <code>Go</code> users :
 
