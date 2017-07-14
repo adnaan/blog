@@ -65,18 +65,18 @@ func main(){
   asClient := aerospike.NewClient(...)
   kafkaProducer := sarama.NewAsyncProducer(...)
   authService := auth.Service{
-  Key: "xxx",
-  Host: "jjj"
-}
+    Key: "xxx",
+    Host: "jjj"
+  }
 
   ... // more services
 
   userService := user.Service{
-  AsClient : asClient,
-  KafkaProducer: kafkaProducer,
-  AuthService: authService
-  ... // more dependencies
-}
+    AsClient : asClient,
+    KafkaProducer: kafkaProducer,
+    AuthService: authService
+    ... // more dependencies
+  }
 
   authService2 := auth.Service {
     Key: "yyy",
@@ -87,7 +87,7 @@ func main(){
     KafkaProducer: kafkaProducer,
     AuthService: authService2
     ... // less dependencies
-}
+  }
 
 }
 </code></pre>
@@ -105,8 +105,8 @@ The following conventions could be adopted to leverage the power of DI while sid
 <h4><strong><em>1. Use interfaces</em></strong></h4>
 To support multi-mode services(with a general <code>default</code> mode), declaring interfaces is the way to go. Declaring interfaces allows us to have multiple implementations of the same service. When used as a dependency, clients don't need to change the contract when a different mode of the service is passed.This is also regularly useful for testing .
 <pre><code class="go">type AppHandler struct {
-UserService user.Service
-// ... more services.
+  UserService user.Service
+  // ... more services.
 }
 </code></pre>
 Here, <code>AppHandler</code> will accept any service(mode) which satisfies the <code>user.Service</code> interface. We will see how it's done, further ahead.
@@ -127,19 +127,19 @@ The above ideas have been sourced from the excellent post by Dave Cheney. Would 
 The <code>functional options</code> pattern is reasonable enough. But still doesn't scale if you have a large number of dependencies and multiple modes. Consider the following:
 <pre><code class="go">// using the functional option pattern
 myUserService := user.NewService(
-msession *mgo.Session,
-..., // more default dependencies
-user.PrivilegedMode(redisPool *redis.Pool),
-..., // more modes
-)
+  msession *mgo.Session,
+  ..., // more default dependencies
+  user.PrivilegedMode(redisPool *redis.Pool),
+  ..., // more modes
+  )
 
 // or
 
 myUserService := user.NewService(
-user.DefaultMode(msession,...,),// more default dependencies
-user.PrivilegedMode(redisPool),
-..., // more modes
-)
+  user.DefaultMode(msession,...,),// more default dependencies
+  user.PrivilegedMode(redisPool),
+  ..., // more modes
+  )
 
 </code></pre>
 We end up with a situation where again, there are many  arguments passed into the <code>New</code> function. Also it doesn't make a lot of sense to have to declare <code>default</code> behavior as a mode.
@@ -149,10 +149,10 @@ Ideally, for a service we would want a <code>default</code> behavior which we ca
 So, instead we use a combo of <code>functional options</code> and <code>Config</code> patterns to get around this complexity.
 <pre><code class="go">// NewService configures the service
 func NewService(defaultConfig Config, configOptions ...func(*Config)) Service {
-for _, option := range configOptions {
-option(&amp;defaultConfig)
-}
-return &amp;service{c: &amp;defaultConfig}
+  for _, option := range configOptions {
+    option(&amp;defaultConfig)
+  }
+  return &amp;service{c: &amp;defaultConfig}
 }
 </code></pre>
 Note that we didn't pass <code>*Config</code> as <code>defaultConfig</code> as we wouldn't want the caller to hold the reference to it. Additional attributes/overrides to the <code>defaultConfig</code> is done via <code>configOptions</code>.
@@ -162,65 +162,65 @@ The following snippets of code condenses the ideas we have talked about:
 package user
 
 import (
-"fmt"
+  "fmt"
 
-"github.com/garyburd/redigo/redis"
-mgo "gopkg.in/mgo.v2"
+  "github.com/garyburd/redigo/redis"
+  mgo "gopkg.in/mgo.v2"
 )
 
 // Service interface
 type Service interface {
 // invoked from a http request and returns the role of the user.
-HandleGetRoleRequest(uid string) string
+  HandleGetRoleRequest(uid string) string
 HandleGetAccessKey(uid string) (string, error)
 }
 
 // Config for the service
-type Config struct {
-RedisPool *redis.Pool
-Msession *mgo.Session
+  type Config struct {
+  RedisPool *redis.Pool
+  Msession *mgo.Session
 }
 
 // configurable service which implements the Service interface
 type service struct {
-c *Config
+  c *Config
 }
 
 func (s *service) HandleGetRoleRequest(uid string) string {
-return getRole(s.c.Msession.Copy(), uid)
+  return getRole(s.c.Msession.Copy(), uid)
 }
 
 func (s *service) HandleGetAccessKey(uid string) (string, error) {
-if s.c.RedisPool == nil {
-return "", fmt.Errorf("redis pool is not initalized")
-}
-return getAccessKey(s.c.RedisPool.Get(), uid)
-}
+  if s.c.RedisPool == nil {
+    return "", fmt.Errorf("redis pool is not initalized")
+  }
+  return getAccessKey(s.c.RedisPool.Get(), uid)
+ }
 
 // NewService configures the service
 func NewService(defaultConfig Config, configOptions ...func(*Config)) Service {
-for _, option := range configOptions {
-option(&amp;defaultConfig)
-}
-return &amp;service{c: &amp;defaultConfig}
+  for _, option := range configOptions {
+    option(&amp;defaultConfig)
+  }
+  return &amp;service{c: &amp;defaultConfig}
 }
 
 func PrivilegedMode(RedisPool *redis.Pool) func(*Config) {
-return func(c *Config) {
-c.RedisPool = RedisPool
-}
+  return func(c *Config) {
+    c.RedisPool = RedisPool
+  }
 }
 
 func getRole(session *mgo.Session, uid string) string {
-defer session.Close()
-// fetch role
-return "admin"
+  defer session.Close()
+  // fetch role
+  return "admin"
 }
 
 func getAccessKey(conn redis.Conn, uid string) (string, error) {
-defer conn.Close()
-//fetch accesskey
-return "xyz123", nil
+  defer conn.Close()
+  //fetch accesskey
+  return "xyz123", nil
 }
 
 </code></pre>
@@ -228,29 +228,29 @@ return "xyz123", nil
 package main
 
 import (
-"github.com/adnaan/talks/dependency_injection_july2017/user"
-"github.com/garyburd/redigo/redis"
-"gopkg.in/mgo.v2"
+  "github.com/adnaan/talks/dependency_injection_july2017/user"
+  "github.com/garyburd/redigo/redis"
+  "gopkg.in/mgo.v2"
 )
 
 type AppHandler struct {
-UserService user.Service
-// ... more services.
+  UserService user.Service
+  // ... more services.
 }
 
 func main() {
-msession := &amp;mgo.Session{} //dummy
-defaultConfig := &amp;user.Config{Msession: msession}
-redisPool := &amp;redis.Pool{} //dummy
-myUserService := user.NewService(defaultConfig)
-// override default behavior
-myPrivilegedUserService := user.NewService(defaultConfig, user.PrivilegedMode(redisPool))
-appHandler := &amp;AppHandler{UserService: myUserService}
-appHandler2 := &amp;AppHandler{UserService: myPrivilegedUserService}
+  msession := &amp;mgo.Session{} //dummy
+  defaultConfig := &amp;user.Config{Msession: msession}
+  redisPool := &amp;redis.Pool{} //dummy
+  myUserService := user.NewService(defaultConfig)
+  // override default behavior
+  myPrivilegedUserService := user.NewService(defaultConfig, user.PrivilegedMode(redisPool))
+  appHandler := &amp;AppHandler{UserService: myUserService}
+  appHandler2 := &amp;AppHandler{UserService: myPrivilegedUserService}
 
-// If necessaryimplement functional config options for AppHandler too
-// ...
-// register appHandler to the http server.
+  // If necessaryimplement functional config options for AppHandler too
+  // ...
+  // register appHandler to the http server.
 
 }
 </code></pre>
@@ -265,14 +265,14 @@ import "github.com/adnaan/talks/dependency_injection_july2017/user"
 
 // configurable service which implements the Service interface
 type service struct {
-c *user.Config
+  c *user.Config
 }
 
 // NewService configures the service
-func NewService(defaultConfig user.Config, configOptions ...func(*user.Config)) user.Service {
-for _, option := range configOptions {
-option(&amp;defaultConfig)
-}
+func NewService(defaultConfig user.Config, configOptions ...func(*user.Config))       user.Service {
+  for _, option := range configOptions {
+    option(&amp;defaultConfig)
+  }
 return &amp;service{c: &amp;defaultConfig}
 }
 ...
@@ -289,7 +289,7 @@ import (
 
 func TestService(t *testing.T) {
 
-mockService := mock.NewService(mockConfig)
+  mockService := mock.NewService(mockConfig)
 }
 ...
 </code></pre>
