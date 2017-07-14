@@ -5,7 +5,7 @@ author: adnaan
 post_excerpt: ""
 layout: post
 permalink: http://adnaan.badr.in/?p=13
-published: false
+published: true
 ---
 
 ## Introduction
