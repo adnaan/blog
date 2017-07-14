@@ -23,31 +23,31 @@ This is in contrast with using globals as dependencies wherein the same global r
 var userService user.Service
 
 func Init() {
-userService = user.NewService()
+  userService = user.NewService()
 }
 
 func GetComments() []Comment {
-var comments []Comment
-comments = append(comments, userService.GetComments())
-return comments
+  var comments []Comment
+  comments = append(comments, userService.GetComments())
+  return comments
 }
 </code></pre>
 Instead <code>PostService</code> could explicitly depend on the <code>user.Service</code> resource. While initializing the <code>PostService</code> object, we would be <code>injecting</code> it's dependencies.
 <pre><code class="go">// Using dependency injection
 
 type PostService struct {
-UserService user.Service
+  UserService user.Service
 }
 
 func (p *PostService) GetComments() []Comment {
-var comments []Comment
-comments = append(comments, p.UserService.GetComments())
-return comments
+  var comments []Comment
+  comments = append(comments, p.UserService.GetComments())
+  return comments
 }
 
 func main(){
-postService := &amp;PostService{UserService:user.NewService()
-...
+  postService := &amp;PostService{UserService:user.NewService()
+  ...
 }
 </code></pre>
 <h2>Designing for Dependency Injection</h2>
@@ -62,31 +62,31 @@ postService := &amp;PostService{UserService:user.NewService()
 First, let's look at a more involved example :
 <pre><code class="go">
 func main(){
-asClient := aerospike.NewClient(...)
-kafkaProducer := sarama.NewAsyncProducer(...)
-authService := auth.Service{
-Key: "xxx",
-Host: "jjj"
+  asClient := aerospike.NewClient(...)
+  kafkaProducer := sarama.NewAsyncProducer(...)
+  authService := auth.Service{
+  Key: "xxx",
+  Host: "jjj"
 }
 
-... // more services
+  ... // more services
 
-userService := user.Service{
-AsClient : asClient,
-KafkaProducer: kafkaProducer,
-AuthService: authService
-... // more dependencies
+  userService := user.Service{
+  AsClient : asClient,
+  KafkaProducer: kafkaProducer,
+  AuthService: authService
+  ... // more dependencies
 }
 
-authService2 := auth.Service {
-Key: "yyy",
-Host: "kkk"
-}
-userServiceLimitedAccess := user.Service{
-AsClient : asClient,
-KafkaProducer: kafkaProducer,
-AuthService: authService2
-... // less dependencies
+  authService2 := auth.Service {
+    Key: "yyy",
+    Host: "kkk"
+  }
+  userServiceLimitedAccess := user.Service{
+    AsClient : asClient,
+    KafkaProducer: kafkaProducer,
+    AuthService: authService2
+    ... // less dependencies
 }
 
 }
