@@ -124,7 +124,7 @@ Possible approaches to construct a service object using functions:
 </ol>
 The above ideas have been sourced from the excellent post by Dave Cheney. Would highly recommend a nice, slow read: <a href="https://dave.cheney.net/2014/10/17/functional-options-for-friendly-apis.">https://dave.cheney.net/2014/10/17/functional-options-for-friendly-apis.</a> Actually I will be right here, while you do that.
 
-The <code>functional options</code> pattern is reasonable enough. But still doesn't really scale if you have a large number of dependencies and multiple modes. Consider the following:
+The <code>functional options</code> pattern is reasonable enough. But still doesn't scale if you have a large number of dependencies and multiple modes. Consider the following:
 <pre><code class="go">// using the functional option pattern
 myUserService := user.NewService(
 msession *mgo.Session,
