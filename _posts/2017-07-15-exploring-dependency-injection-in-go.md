@@ -122,7 +122,7 @@ Possible approaches to construct a service object using functions:
  	<li>Variadic <code>Config</code>. <code>NewService(c ...Config)</code>.</li>
  	<li>Functional Options: <code>NewService(options ...func(Service)</code></li>
 </ol>
-The above ideas have been sourced from the excellent post by Dave Cheney. Would highly recommend a nice, slow read: https://dave.cheney.net/2014/10/17/functional-options-for-friendly-apis. Actually I will be right here, while you do that.
+The above ideas have been sourced from the excellent post by Dave Cheney. Would highly recommend a nice, slow read: <a href="https://dave.cheney.net/2014/10/17/functional-options-for-friendly-apis.">https://dave.cheney.net/2014/10/17/functional-options-for-friendly-apis.</a> Actually I will be right here, while you do that.
 
 The <code>functional options</code> pattern is reasonable enough. But still doesn't really scale if you have a large number of dependencies and multiple modes. Consider the following:
 <pre><code class="go">// using the functional option pattern
