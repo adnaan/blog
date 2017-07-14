@@ -317,7 +317,7 @@ There are various other ways to build a sensible dependency graph. Packages like
 Here is a tl;dr for the reader:
 <pre><code>Pass dependencies to a service implementation as functional config options:
 
-New(defaultConfig Config, configOptions ...func(*Config))Service.
+     New(defaultConfig Config, configOptions ...func(*Config))Service.
 
 where Service is an interface.
 </code></pre>
