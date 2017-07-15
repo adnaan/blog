@@ -15,7 +15,7 @@ There is a lot of material available about the pros and cons of Dependency Injec
 Let's setup a context for <code>Go</code> users :
 
 As a clean programming practice, the theory of dependency injection is quite simple across several languages:
-<blockquote>A dependency is passed to an object as an argument than the object creating or finding it.</blockquote>
+<blockquote>A dependency is passed to an object as an argument rather than the object creating or finding it.</blockquote>
 It plainly means that the dependencies of an object are passed to it as it’s initial state.
 This is in contrast with using globals as dependencies wherein the same global resource is shared across multiple objects. It also means the object doesn't self-initialize its dependencies.
 <pre><code class="go">// Using a global dependency in PostService
