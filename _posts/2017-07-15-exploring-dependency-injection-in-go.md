@@ -145,7 +145,7 @@ myUserService := user.NewService(
 We end up with a situation where again, there are many  arguments passed into the <code>New</code> function. Also it doesn't make a lot of sense to have to declare <code>default</code> behavior as a mode.
 
 Ideally, for a service we would want a <code>default</code> behavior which we can override to create a new mode.
-<h5>Functional Config Options</h5>
+<h4>Functional Config Options</h4>
 So, instead we use a combo of <code>functional options</code> and <code>Config</code> patterns to get around this complexity.
 <pre><code class="go">// NewService configures the service
 func NewService(defaultConfig Config, configOptions ...func(*Config)) Service {
