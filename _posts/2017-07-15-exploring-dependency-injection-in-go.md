@@ -248,7 +248,7 @@ func main() {
   appHandler := &amp;AppHandler{UserService: myUserService}
   appHandler2 := &amp;AppHandler{UserService: myPrivilegedUserService}
 
-  // If necessaryimplement functional config options for AppHandler too
+  // If necessary implement functional config options for AppHandler too
   // ...
   // register appHandler to the http server.
 
