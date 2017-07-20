@@ -34,6 +34,7 @@ A http handler wrapper is an idiomatic approach to overcome this. I have written
 Usage:
 
   ```go
+  
   r := chi.NewRouter()
   statsdClient, _ := statsd.New(
 	statsd.Prefix("myapp"),
@@ -46,6 +47,7 @@ Usage:
 	  w.Write([]byte("OK"))
   }
   r.Get(wrap.HandlerFunc("home", "/", handleHome))
+
 ```
 
 
@@ -53,6 +55,7 @@ By default  the wrapper sends the following metrics for http: `response_time`,
 `count` and `status<HTTPStatusCode>.count` Since the code is trivial I would recommend folks to copy it and modify to suit their own purposes. I would try to extend this to other popular routers on a later date if it makes sense. Here's the single file which constitutes the package:  
 
 ```go
+
 // Package statsdwrap exposes wrappers for http.Handler and http.HandlerFunc which send
 // metrics to statsd.
 // Usage:
@@ -170,6 +173,7 @@ func (d *defaultWrapper) HandlerFunc(routeName string, pattern string, handlerFu
 	p, h := d.Handler(routeName, pattern, handlerFunc)
 	return p, func(w http.ResponseWriter, r *http.Request) { h.ServeHTTP(w, r) }
 }
+
 ```
 
 We can use the above pattern to write wrappers for different routers, metrics, logging etc. Use this with something like the [go-runtime-metrics](https://github.com/bmhatfield/go-runtime-metrics) package and you have got a nice instrumentation going.
