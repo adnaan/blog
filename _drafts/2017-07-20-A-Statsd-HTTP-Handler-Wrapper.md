@@ -1,24 +1,26 @@
 ---
+ID: 78
 post_title: A Statsd HTTP Handler Wrapper
 author: adnaan
+post_excerpt: ""
 layout: post
+permalink: http://adnaan.badr.in/?p=78
 published: false
 ---
-
 Statsd is a simple and effective tool to trace app metrics: http request latency, throughput, runtime metrics. Using the  package [alexcesaro/statsd.v2](https://godoc.org/gopkg.in/alexcesaro/statsd.v2), tracking response time of a request is a one liner:
 
 ```go
 func main(){
     r := chi.NewRouter()
-    r.Get("/",handleHome)
+    r.Get(&quot;/&quot;,handleHome)
 }
 
 func handleHome(w http.ResponseWriter, r *http.Request) {
-    defer c.NewTiming().Send("homepage.response_time")
-    defer c.Increment("foo.counter")
+    defer c.NewTiming().Send(&quot;homepage.response_time&quot;)
+    defer c.Increment(&quot;foo.counter&quot;)
     time.Sleep(time.Millisecond * 1000)
     w.WriteHeader(http.StatusOK)
-    w.Write([]byte("OK"))
+    w.Write([]byte(&quot;OK&quot;))
 }
 
 ```
@@ -52,26 +54,26 @@ By default  the wrapper sends the following metrics for http: `response_time`,
 // Usage:
 // 		r := chi.NewRouter()
 // 		statsdClient, _ := statsd.New(
-// 		statsd.Prefix("myapp"),
-// 		statsd.Address("localhost:8125"),
+// 		statsd.Prefix(&quot;myapp&quot;),
+// 		statsd.Address(&quot;localhost:8125&quot;),
 // 		)
-// 		wrap := statsdwrap.NewChi("user_service", statsdClient)
+// 		wrap := statsdwrap.NewChi(&quot;user_service&quot;, statsdClient)
 // 		handleHome := func(w http.ResponseWriter, r *http.Request) {
 // 			time.Sleep(time.Millisecond * 1000)
 // 			w.WriteHeader(http.StatusOK)
-// 			w.Write([]byte("OK"))
+// 			w.Write([]byte(&quot;OK&quot;))
 // 		}
-// 		r.Get(wrap.HandlerFunc("home", "/", handleHome))
+// 		r.Get(wrap.HandlerFunc(&quot;home&quot;, &quot;/&quot;, handleHome))
 package statsdwrap
 
 import (
-    "bytes"
-    "fmt"
-    "net/http"
-    "strings"
+    &quot;bytes&quot;
+    &quot;fmt&quot;
+    &quot;net/http&quot;
+    &quot;strings&quot;
 
-    "github.com/pressly/chi/middleware"
-    "gopkg.in/alexcesaro/statsd.v2"
+    &quot;github.com/pressly/chi/middleware&quot;
+    &quot;gopkg.in/alexcesaro/statsd.v2&quot;
 )
 
 // HandlerWrapper ...
@@ -86,19 +88,19 @@ type HTTPTxn interface {
     End()
 }
 
-// NewChi statsd wrapper client. Usage: NewChi("acme",statsdClient). The wrapper sends the metrics: response_time,
-// count and status<HTTPStatusCode>.count. e.g. :
+// NewChi statsd wrapper client. Usage: NewChi(&quot;acme&quot;,statsdClient). The wrapper sends the metrics: response_time,
+// count and status&lt;HTTPStatusCode&gt;.count. e.g. :
 // acme.home.response_time where home is the route name
 // acme.home.count
 // acme.home.status404.count
 func NewChi(prefix string, statsdClient *statsd.Client) HandlerWrapper {
     var cloneStatsdClient *statsd.Client
-    if prefix == "" {
+    if prefix == &quot;&quot; {
         cloneStatsdClient = statsdClient.Clone()
     } else {
         cloneStatsdClient = statsdClient.Clone(statsd.Prefix(prefix))
     }
-    return &defaultWrapper{
+    return &amp;defaultWrapper{
         client: cloneStatsdClient,
     }
 
@@ -111,15 +113,15 @@ type defaultWrapper struct {
 
 // startTransaction ...
 func (d *defaultWrapper) startTransaction(name string, w middleware.WrapResponseWriter, r *http.Request) HTTPTxn {
-    entry := &httpTxn{
+    entry := &amp;httpTxn{
         name:               name,
         timing:             d.client.NewTiming(),
-        responseTimeBucket: strings.Join([]string{name, "response_time"}, "."),
-        hitsBucket:         strings.Join([]string{name, "count"}, "."),
+        responseTimeBucket: strings.Join([]string{name, &quot;response_time&quot;}, &quot;.&quot;),
+        hitsBucket:         strings.Join([]string{name, &quot;count&quot;}, &quot;.&quot;),
         defaultWrapper:     d,
         ww:                 w,
         request:            r,
-        buf:                &bytes.Buffer{},
+        buf:                &amp;bytes.Buffer{},
     }
 
     return entry
@@ -139,7 +141,7 @@ type httpTxn struct {
 
 func (d *httpTxn) Write(status int) {
     d.timing.Send(d.responseTimeBucket)
-    httpStatusBucket := fmt.Sprintf("%s.http%d", d.name, d.ww.Status())
+    httpStatusBucket := fmt.Sprintf(&quot;%s.http%d&quot;, d.name, d.ww.Status())
     d.client.Increment(httpStatusBucket)
     d.client.Increment(d.hitsBucket)
 }
@@ -167,5 +169,3 @@ func (d *defaultWrapper) HandlerFunc(routeName string, pattern string, handlerFu
 ```
 
 We can use the above pattern to write wrappers for different routers, metrics, logging etc. Use this with something like the [go-runtime-metrics](https://github.com/bmhatfield/go-runtime-metrics) package and you have got a nice instrumentation going.
-
-
