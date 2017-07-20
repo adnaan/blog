@@ -29,7 +29,7 @@ func handleHome(w http.ResponseWriter, r *http.Request) {
 
 But this gets cumbersome if you have more than a couple of handlers and would want to track other metrics too.
 
-A http handler wrapper is an idiomatic way to overcome code strewn with such code. [statsdwrap](https://github.com/adnaan/statsdwrap) package is a simple implementation of this approach. It's a tiny package for the [chi](https://github.com/go-chi/chi) router. 
+A http handler wrapper is an idiomatic way to overcome code strewn with statsd metric sends. [statsdwrap](https://github.com/adnaan/statsdwrap) package is a simple implementation of this approach. It's a tiny package for the [chi](https://github.com/go-chi/chi) router. 
 
 Usage:
 
@@ -52,7 +52,7 @@ Usage:
 
 
 By default  the wrapper sends the following metrics for http: ```response_time```,
-```count``` and ```status<HTTPStatusCode>.count``` Since the code is trivial I would recommend folks to copy it and modify to suit their own purposes. I would try to extend this to other popular routers on a later date if it makes sense. Here's the single file which constitutes the package:  
+```count``` and ```status<HTTPStatusCode>.count``` Since the code is trivial I would recommend folks to copy it and modify to suit their own purposes. Here's the single file which constitutes the package:  
 
 ```go
 
