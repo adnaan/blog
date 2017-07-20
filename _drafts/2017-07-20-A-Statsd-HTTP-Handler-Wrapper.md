@@ -7,27 +7,31 @@ layout: post
 permalink: http://adnaan.badr.in/?p=78
 published: false
 ---
-Statsd is a simple and effective tool to trace app metrics: http request latency, throughput, runtime metrics. Using the  package [alexcesaro/statsd.v2](https://godoc.org/gopkg.in/alexcesaro/statsd.v2), tracking response time of a request is a one liner:
+Statsd is a simple and effective tool to trace app metrics: http request latency, throughput, runtime metrics etc. Using the  package [alexcesaro/statsd.v2](https://godoc.org/gopkg.in/alexcesaro/statsd.v2), tracking response time of a request is a one liner:
+
 
 ```go
+
 func main(){
 	r := chi.NewRouter()
-	r.Get(&quot;/&quot;,handleHome)
+	r.Get("/",handleHome)
 }
 
 func handleHome(w http.ResponseWriter, r *http.Request) {
 	defer c.NewTiming().Send(&quot;homepage.response_time&quot;)
-	defer c.Increment(&quot;foo.counter&quot;)
+	defer c.Increment("foo.counter")
 	time.Sleep(time.Millisecond * 1000)
 	w.WriteHeader(http.StatusOK)
-	w.Write([]byte(&quot;OK&quot;))
+	w.Write([]byte("OK"))
 }
 
 ```
 
 But this gets cumbersome if you have more than a couple of handlers and would want to track other metrics too.
 
-A http handler wrapper is an idiomatic approach to overcome this. I have written a package to that effect: [statsdwrap](https://github.com/adnaan/statsdwrap). It's a tiny package for the [chi](https://github.com/go-chi/chi) router. Usage:
+A http handler wrapper is an idiomatic approach to overcome this. I have written a package to that effect: [statsdwrap](https://github.com/adnaan/statsdwrap). It's a tiny package for the [chi](https://github.com/go-chi/chi) router. 
+
+Usage:
 
   ```go
   r := chi.NewRouter()
