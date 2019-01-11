@@ -29,8 +29,7 @@ type User struct {
 
 and a type <code>Storage</code> which represents a database.
 
-<pre><code class="go">
-...
+<pre><code class="go">...
 type Storage struct {
     db *sql.DB
 }
@@ -58,8 +57,7 @@ To mock out the <code>Storage</code> type, we can declare an interface to have a
 
 So instead of creating a <code>type Storage struct</code>, we create a <code>type Storage interface</code>.
 
-<pre><code class="go">
-
+<pre><code class="go">...
 type Storage interface {
     CreateUser(user User) error
 }
@@ -68,8 +66,7 @@ type Storage interface {
 
 Implement a real storage for the interface <code>Storage</code>.
 
-<pre><code class="go">
-
+<pre><code class="go">...
 func NewStorage(db *sql.DB) Storage {
     return &amp;defaultStorage{db : db}
 }
@@ -89,8 +86,7 @@ func (d *defaultStorage) CreateUser(user User) error {
 
 and a mock storage.
 
-<pre><code class="go">
-
+<pre><code class="go">...
 func NewMockStorage() Storage {
     return &amp;mockStorage{users: make(map[int64]User)}
 }
@@ -112,7 +108,6 @@ func (m *mockStorage) CreateUser(user User) error {
 Alternatively, one could split this into multiple packages to keep the method signatures same and imports more sensible.
 
 <pre><code class="bash">
-
 pkg/storage/
     mocksql/
     sql/
@@ -122,8 +117,7 @@ pkg/storage/
 
 <code>sql.go</code>
 
-<pre><code class="go">
-
+<pre><code class="go">...
 func New(db *sql.DB) Storage {
     return &amp;storage{db: db}
 }
@@ -143,8 +137,7 @@ func (s *storage) CreateUser(user User) error {
 
 <code>mocksql/sql.go</code>
 
-<pre><code class="go">
-
+<pre><code class="go">...
 func New() Storage {
     return &amp;mockStorage{users: make(map[int64]User)}
 }
@@ -165,8 +158,7 @@ func (m *mockStorage) CreateUser(user User) error {
 
 <code>storage.go</code>
 
-<pre><code class="go">
-
+<pre><code class="go">...
 type Storage interface {
     CreateUser(user User) error
 }
@@ -224,8 +216,7 @@ While using interfaces to mock out behaviour is quite alright, it might look too
 
 In this approach you design the <code>Storage</code> object to have custom function types.
 
-<pre><code class="go">
-
+<pre><code class="go">...
 type CreateUserFunc func(user User) error
 
 type Storage struct {
@@ -236,9 +227,7 @@ type Storage struct {
 
 The real implementation would be:
 
-<pre><code class="go">
-
-...
+<pre><code class="go">...
 import "github.com/adnaan/mypkg/sqldb"
 
 ...
@@ -256,8 +245,7 @@ storage := Storage{
 
 and use a mock in test code.
 
-<pre><code class="go">
-
+<pre><code class="go">...
 var db = make(map[int]User)
 var lastID = 0
 ...
@@ -278,7 +266,7 @@ This approach needs a database manager package which provides the database handl
 
 In this approach one still has a <code>Storage</code> interface but also implements a mock struct which holds mocked equivalents of the interface methods.
 
-<pre><code class="go">
+<pre><code class="go">...
 type Storage interface {
     CreateUser(user User) error
 }
