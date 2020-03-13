@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en-us">
+
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+<title> Posts &middot; Adnaan Badr </title>
+
+
+<link rel="stylesheet" href="http://adnaan.github.iocss/slim.css">
+<link rel="stylesheet" href="http://adnaan.github.iocss/highlight.min.css">
+<link href='https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,700|Source+Code+Pro' rel='stylesheet' type='text/css'>
+
+<link rel="apple-touch-icon-precomposed" sizes="144x144" href="/apple-touch-icon-144-precomposed.png">
+<link rel="shortcut icon" href="/favicon.ico">
+
+
+<link href="http://adnaan.github.io/post/index.xml" rel="alternate" type="application/rss+xml" title="Adnaan Badr" />
+
+</head>
+
+<body>
+  <div class="container">
+    <div class="header">
+  <h1 class="site-title"><a href="http://adnaan.github.io">Adnaan Badr</a></h1>
+  <p class="site-tagline">Android Framework/Platform, Mobile App Services, Go, Weird Sarcasm</p>
+  <div class="nav">
+    <a class="nav-btn" href="#">
+      <span class="ci ci-burger"></span>
+    </a>
+    <ul class="nav-list">
+      
+      <li><a href="/about/">About</a></li>
+       
+	  <li class="spacer">&ac;</li>
+
+      <li><a href="https://github.com/adnaan">Github</a></li> 
+      <li><a href="https://twitter.com/adnaanx">Twitter</a></li> 
+    </ul>
+  </div>
+</div>
+    <div class="content">
+      <div class="posts">
+         
+        <div class="post">
+          <h2 class="post-title"><a href="http://adnaan.github.io/2015/11/aosp-snippets/">AOSP snippets</a></h2>
+          <span class="post-date">Nov 5, 2015</span>
+		  
+		  
+		  	<div class="summary">
+				<h4 id="list-of-aosp-related-tips-links-and-snippets-in-no-particular-order">List of AOSP related tips, links and snippets in no particular order</h4>
+<ul>
+<li>
+<p>Code search : For fast indexed code search a CLI tool goes a long way. Switching context between Opengrok and the terminal gets frustrating. Using <a href="https://github.com/google/codesearch">https://github.com/google/codesearch</a> cuts down the search time from minutes (ag, grep) to milliseconds.</p>
+</li>
+<li>
+<p>Local repo init: I found the flag &ldquo;&ndash;reference&rdquo; in the repo tool quite useful. Easy way to sync the whole tree on a new system.</p>
+</li>
+</ul>
+<pre><code>repo init --reference=~/android/cm -u git://url/to/manifest.git -b marshmallow
+</code></pre><p><a href="http://xda-university.com/as-a-developer/repo-tips-tricks">More repo tricks and tips at xda-university</a></p>
+				<a class="read-more" href="/2015/11/aosp-snippets/">&hellip;</a>
+			</div>
+		  
+        </div>
+        
+        <div class="post">
+          <h2 class="post-title"><a href="http://adnaan.github.io/2015/10/alienlang/">AlienLang</a></h2>
+          <span class="post-date">Oct 30, 2015</span>
+		  
+		  
+		  	<div class="summary">
+				<p>A few alien explorers from a galaxy far away visit Earth, and they want to communicate with us humans, for which they need a language. They could have used sign language but they don&rsquo;t. It&rsquo;s not clear whether it&rsquo;s a cultural thing or that they might want to exchange more than the usual cry of &ldquo;Bob&rdquo; while pointing a body appendage towards self and then towards you(at which point you say your name or faint).</p>
+				<a class="read-more" href="/2015/10/alienlang/">&hellip;</a>
+			</div>
+		  
+        </div>
+        
+        <div class="post">
+          <h2 class="post-title"><a href="http://adnaan.github.io/2015/10/go-fastcgi/">Go: FastCGI, Nginx</a></h2>
+          <span class="post-date">Oct 25, 2015</span>
+		  
+		  
+		  	<div class="summary">
+				FastCGI under Go is a bit different than say a PHP fcgi. In PHP fcgi, a new process is spawned external to the web-server while in Go, a new goroutine is launched to handle the incoming connections. So when we put fcgi under nginx for Go, nginx is effectively just a pass-thorough proxy.
+In your nginx conf file under /etc/nginx/sites-available, add:
+location ~ /app.* { fastcgi_pass 127.0.0.1:8082; #proxy_pass 127.0.0.1:8082; }  The above tells nginx to redirect requests to 127.
+				<a class="read-more" href="/2015/10/go-fastcgi/">&hellip;</a>
+			</div>
+		  
+        </div>
+        
+        <div class="post">
+          <h2 class="post-title"><a href="http://adnaan.github.io/2015/10/upstart-go/">Upstart &amp; Go</a></h2>
+          <span class="post-date">Oct 24, 2015</span>
+		  
+		  
+		  	<div class="summary">
+				<p>These scripts are system jobs for upstart and are to be placed in /etc/init.</p>
+<p><strong>app-worker.conf</strong></p>
+<pre><code>description     &quot;App-Worker&quot;
+author          &quot;Adnaan&quot;
+
+start on (net-device-up
+          and local-filesystems
+          and runlevel [2345])
+
+stop on runlevel [06]
+respawn
+
+instance $PORT
+
+script
+    #initramfs provides early userspace
+    exec 2&gt;&gt;/dev/.initramfs/app-worker.log
+    set -x
+    export APP=&quot;/root/goworkspace/src/myappcode&quot;
+    #change directory or go won't read the web app resources
+    chdir $APP
+    #execute
+    exec sudo $APP/app --port $PORT
+end script
+</code></pre>
+				<a class="read-more" href="/2015/10/upstart-go/">&hellip;</a>
+			</div>
+		  
+        </div>
+        
+      </div>
+      <div class="pagination">
+   
+</div>
+    </div>
+    <div class="footer">
+  
+  <p>Powered by <a href="https://gohugo.io">Hugo</a>. This theme—Slim—is open sourced on <a href="https://github.com/zhe/hugo-theme-slim">Github</a>.</p>
+  
+</div>
+
+  </div>
+  <script src="http://adnaan.github.iojs/slim.js"></script>
+  <script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-69453720-1', 'auto');
+ga('send', 'pageview');
+
+</script>
+
+
+</body>
+
+</html>
